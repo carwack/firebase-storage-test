@@ -4,9 +4,34 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <input type="file" name="file" id="file" @change="uploadImage">
+    <img :src="img" alt="uploaded image">
   </div>
 </template>
+
+<script>
+// import firebase from 'firebase'
+
+export default {
+  name: 'App',
+  data: function () {
+    return {
+      img: ''
+    }
+  },
+  methods: {
+    uploadImage: function (event) {
+      const image = event.target.files[0]
+      const reader = new FileReader()
+      this.imgName = event.target.files[0].name
+      reader.readAsDataURL(image)
+      reader.onload = (e) => {
+        this.img = e.target.result
+      }
+    }
+  }
+}
+</script>
 
 <style>
 #app {
