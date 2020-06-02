@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/storage'
 
 export default {
   name: 'App',
