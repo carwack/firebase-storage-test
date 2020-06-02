@@ -22,5 +22,8 @@ yarn build
 yarn lint
 ```
 
+### Firebase docs
+https://firebase.google.com/docs/storage/web/start
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
