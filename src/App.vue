@@ -5,28 +5,54 @@
       <router-link to="/about">About</router-link>
     </div>
     <input type="file" name="file" id="file" @change="uploadImage">
-    <img :src="img" alt="uploaded image">
+    <img :src="imgSrc" :alt="imgName">
+    <button @click="uploadToStorage">Upload to storage</button>
   </div>
 </template>
 
 <script>
-// import firebase from 'firebase'
+import firebase from 'firebase'
 
 export default {
   name: 'App',
   data: function () {
     return {
-      img: ''
+      imgFile: '',
+      imgSrc: '',
+      imgName: ''
     }
   },
   methods: {
     uploadImage: function (event) {
-      const image = event.target.files[0]
+      this.imgFile = event.target.files[0]
       const reader = new FileReader()
       this.imgName = event.target.files[0].name
-      reader.readAsDataURL(image)
+      reader.readAsDataURL(this.imgFile)
       reader.onload = (e) => {
-        this.img = e.target.result
+        this.imgSrc = e.target.result
+      }
+    },
+    uploadToStorage: function () {
+      if (this.imgFile !== '') {
+        var storageRef = firebase.storage().ref()
+        var imagesRef = storageRef.child(`images/${this.imgName}`)
+        imagesRef
+          .put(this.imgFile)
+          .then(function (snapshot) {
+            console.log('Uploaded a blob or file!')
+          })
+          // .collection('players')
+          // .doc(currentUser.uid)
+          // .update({
+          //   candidates: this.candidates,
+          //   credits: this.credits,
+          //   voted: this.voted
+          // })
+          // .then(() => {
+          //   // console.log('Voted!')
+          // })
+      } else {
+        console.error('no image ready to upload')
       }
     }
   }
